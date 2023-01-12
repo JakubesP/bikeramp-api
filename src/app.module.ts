@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { TripsModule } from './trips/trips.module';
 import { StatsModule } from './stats/stats.module';
+import { GoogleMapsModule } from './google-maps/google-maps.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { StatsModule } from './stats/stats.module';
     }),
     TripsModule,
     StatsModule,
+    GoogleMapsModule,
   ],
 })
 export class AppModule {
