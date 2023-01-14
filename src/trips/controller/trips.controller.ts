@@ -5,10 +5,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CreateTripDto } from './dto/create-trip.dto';
-import { TripsService } from './trips.service';
-import { RouteNotFoundException } from './service-exceptions/route-not-found.exception';
-import { CreateTripResponse } from './dto/create-trip-response.dto';
+import { CreateTripDto } from '../dto/create-trip.dto';
+import { TripsService } from '../service/trips.service';
+import { RouteNotFoundException } from '../exceptions/route-not-found.exception';
+import { CreateTripResponse } from '../dto/create-trip-response.dto';
 
 @Controller('trips')
 export class TripsController {

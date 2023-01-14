@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { TripsModule } from './trips/trips.module';
-import { StatsModule } from './stats/stats.module';
 import { GoogleMapsModule } from './google-maps/google-maps.module';
 
 @Module({
@@ -12,7 +11,6 @@ import { GoogleMapsModule } from './google-maps/google-maps.module';
       validationSchema: configValidationSchema,
     }),
     TripsModule,
-    StatsModule,
     GoogleMapsModule,
   ],
 })
