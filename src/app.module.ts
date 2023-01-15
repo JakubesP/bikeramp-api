@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { TripsModule } from './trips/trips.module';
 import { GoogleMapsModule } from './google-maps/google-maps.module';
+import { AllExceptionsFilter } from './core/all-exceptions.filter';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -12,6 +14,12 @@ import { GoogleMapsModule } from './google-maps/google-maps.module';
     }),
     TripsModule,
     GoogleMapsModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
   ],
 })
 export class AppModule {
