@@ -1,6 +1,6 @@
 import { Trip } from '@prisma/client';
 
-export class CreateTripResponse {
+export class CreateTripResponseDto {
   distance: string;
 
   constructor(model: Trip) {

@@ -40,7 +40,7 @@ describe('TripsController', () => {
   });
 
   describe('createTrip', () => {
-    it('resolves CreateTripResponse if tripsService.createTrip resolves Trip', async () => {
+    it('resolves CreateTripResponseDto if tripsService.createTrip resolves Trip', async () => {
       tripsService.createTrip.mockResolvedValue(exampleTrip);
 
       const result = await controller.createTrip(exampleCreateTripDto);
