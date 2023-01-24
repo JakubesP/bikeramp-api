@@ -1,10 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TripsService } from '../service/trips.service';
-import { GoogleMapsService } from '../../google-maps/google-maps.service';
 import { TripsRepository } from '../trips.repository';
-import { Status } from '@googlemaps/google-maps-services-js';
-import { RouteNotFoundException } from '../exception/route-not-found.exception';
 import { Trip } from '@prisma/client';
+import { RouteNotFoundException } from '../../road-distance/exception/route-not-found.exception';
 
 const exampleCreateTripDto = {
   start_address: 'some_start_address',
@@ -22,27 +20,8 @@ const exampleTrip: Trip = {
   price: 1000,
 };
 
-const generateExampleGetBikeRoadDistanceReturnObject = (
-  elementStatus: Status,
-  distance?: { value: number },
-) => ({
-  destination_addresses: ['some_destination_address'],
-  origin_addresses: ['some_origin_address'],
-  status: Status.OK,
-  rows: [
-    {
-      elements: [
-        {
-          status: elementStatus,
-          distance,
-        },
-      ],
-    },
-  ],
-});
-
-const mockGoogleMapsService = () => ({
-  getBikeRoadDistance: jest.fn(),
+const mockRoadDistanceService = () => ({
+  getDistance: jest.fn(),
 });
 
 const mockTripsRepository = () => ({
@@ -51,30 +30,29 @@ const mockTripsRepository = () => ({
 
 describe('TripsService', () => {
   let service: TripsService;
-  let googleMapsService: any;
+  let roadDistanceService: any;
   let tripsRepository: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         TripsService,
-        { provide: GoogleMapsService, useFactory: mockGoogleMapsService },
+        {
+          provide: 'ROAD_DISTANCE_SERVICE',
+          useFactory: mockRoadDistanceService,
+        },
         { provide: TripsRepository, useFactory: mockTripsRepository },
       ],
     }).compile();
 
     service = module.get<TripsService>(TripsService);
-    googleMapsService = module.get(GoogleMapsService);
+    roadDistanceService = module.get('ROAD_DISTANCE_SERVICE');
     tripsRepository = module.get(TripsRepository);
   });
 
   describe('createTrip', () => {
     it('resolves Trip if tripsRepository.createTrip resolves Trip', async () => {
-      googleMapsService.getBikeRoadDistance.mockResolvedValue(
-        generateExampleGetBikeRoadDistanceReturnObject(Status.OK, {
-          value: 1000,
-        }),
-      );
+      roadDistanceService.getDistance.mockResolvedValue(1000);
 
       tripsRepository.createTrip.mockResolvedValue(exampleTrip);
 
@@ -87,20 +65,10 @@ describe('TripsService', () => {
       expect(result).toEqual(exampleTrip);
     });
 
-    it('throws RouteNotFoundException if googleMapsService.getBikeRoadDistance resolves object with NOT_FOUND element status', () => {
-      googleMapsService.getBikeRoadDistance.mockResolvedValue(
-        generateExampleGetBikeRoadDistanceReturnObject(Status.NOT_FOUND),
-      );
-
-      expect(service.createTrip(exampleCreateTripDto)).rejects.toThrow(
-        RouteNotFoundException,
-      );
-    });
-
-    it('throws RouteNotFoundException if googleMapsService.getBikeRoadDistance resolves object with ZERO_RESULTS element status', () => {
-      googleMapsService.getBikeRoadDistance.mockResolvedValue(
-        generateExampleGetBikeRoadDistanceReturnObject(Status.ZERO_RESULTS),
-      );
+    it('throws RouteNotFoundException if roadDistanceService.getDistance throws RouteNotFoundException', async () => {
+      roadDistanceService.getDistance.mockImplementation(() => {
+        throw new RouteNotFoundException();
+      });
 
       expect(service.createTrip(exampleCreateTripDto)).rejects.toThrow(
         RouteNotFoundException,

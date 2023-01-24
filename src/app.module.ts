@@ -5,6 +5,7 @@ import { TripsModule } from './trips/trips.module';
 import { GoogleMapsModule } from './google-maps/google-maps.module';
 import { AllExceptionsFilter } from './core/all-exceptions.filter';
 import { APP_FILTER } from '@nestjs/core';
+import { RoadDistanceModule } from './road-distance/road-distance.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { APP_FILTER } from '@nestjs/core';
     }),
     TripsModule,
     GoogleMapsModule,
+    RoadDistanceModule,
   ],
   providers: [
     {

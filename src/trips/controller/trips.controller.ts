@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { CreateTripDto } from '../dto/create-trip.dto';
 import { TripsService } from '../service/trips.service';
-import { RouteNotFoundException } from '../exception/route-not-found.exception';
+import { RouteNotFoundException } from '../../road-distance/exception/route-not-found.exception';
 import { CreateTripResponseDto } from '../dto/create-trip-response.dto';
 
 @Controller('trips')
