@@ -3,7 +3,7 @@ import { TripsService } from '../service/trips.service';
 import { GoogleMapsService } from '../../google-maps/google-maps.service';
 import { TripsRepository } from '../trips.repository';
 import { Status } from '@googlemaps/google-maps-services-js';
-import { RouteNotFoundException } from '../exceptions/route-not-found.exception';
+import { RouteNotFoundException } from '../exception/route-not-found.exception';
 import { Trip } from '@prisma/client';
 
 const exampleCreateTripDto = {

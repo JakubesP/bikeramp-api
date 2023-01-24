@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TripsController } from '../controller/trips.controller';
 import { TripsService } from '../service/trips.service';
-import { RouteNotFoundException } from '../exceptions/route-not-found.exception';
+import { RouteNotFoundException } from '../exception/route-not-found.exception';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Trip } from '@prisma/client';
 

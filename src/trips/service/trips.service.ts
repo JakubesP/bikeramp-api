@@ -3,7 +3,7 @@ import { GoogleMapsService } from '../../google-maps/google-maps.service';
 import { CreateTripDto } from '../dto/create-trip.dto';
 import { Status } from '@googlemaps/google-maps-services-js';
 import { TripsRepository } from '../trips.repository';
-import { RouteNotFoundException } from '../exceptions/route-not-found.exception';
+import { RouteNotFoundException } from '../exception/route-not-found.exception';
 import { Trip } from '@prisma/client';
 
 @Injectable()
