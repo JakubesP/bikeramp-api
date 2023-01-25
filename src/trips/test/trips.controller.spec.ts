@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TripsController } from '../controller/trips.controller';
 import { TripsService } from '../service/trips.service';
 import { RouteNotFoundException } from '../../road-distance/exception/route-not-found.exception';
-import { HttpException, HttpStatus } from '@nestjs/common';
 import { Trip } from '@prisma/client';
 
 const exampleCreateTripDto = {
@@ -48,20 +47,14 @@ describe('TripsController', () => {
       expect(result).toEqual({ distance: '1.0km' });
     });
 
-    it('throws BAD_REQUEST HttpException if tripsService.createTrip throws RouteNotFoundException', async () => {
+    it('throws RouteNotFoundException if tripsService.createTrip throws RouteNotFoundException', async () => {
       tripsService.createTrip.mockImplementation(() => {
         throw new RouteNotFoundException();
       });
 
-      try {
-        await controller.createTrip(exampleCreateTripDto);
-        expect(true).toBe(false);
-      } catch (error) {
-        expect(error).toBeInstanceOf(HttpException);
-        expect((error as HttpException).getStatus()).toBe(
-          HttpStatus.BAD_REQUEST,
-        );
-      }
+      expect(controller.createTrip(exampleCreateTripDto)).rejects.toThrow(
+        RouteNotFoundException,
+      );
     });
   });
 });

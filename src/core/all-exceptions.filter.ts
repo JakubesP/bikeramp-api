@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Response, Request } from 'express';
 import { Logger } from '@nestjs/common';
+import { RouteNotFoundException } from '../road-distance/exception/route-not-found.exception';
 
 export interface HttpExceptionResponse {
   statusCode: number;
@@ -35,6 +36,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       errorMessage = this.getHttpErrorMessage(exception);
+    } else if (exception instanceof RouteNotFoundException) {
+      status = HttpStatus.BAD_REQUEST;
+      errorMessage = exception.message;
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       errorMessage = 'Internal server error occurred!';
