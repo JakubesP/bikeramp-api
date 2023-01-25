@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
 import { PrismaService } from './prisma.service';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -20,6 +21,6 @@ async function bootstrap() {
 
   app.use(morgan('tiny'));
 
-  await app.listen(AppModule.port);
+  await app.listen(app.get(ConfigService).get('HTTP_PORT'));
 }
 bootstrap();

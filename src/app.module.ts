@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config.schema';
 import { TripsModule } from './trips/trips.module';
 import { GoogleMapsModule } from './google-maps/google-maps.module';
@@ -24,10 +24,4 @@ import { RoadDistanceModule } from './road-distance/road-distance.module';
     },
   ],
 })
-export class AppModule {
-  static port: number;
-
-  constructor(configService: ConfigService) {
-    AppModule.port = configService.get('HTTP_PORT');
-  }
-}
+export class AppModule {}
