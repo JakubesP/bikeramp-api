@@ -16,3 +16,39 @@ export const getMonthRange = (now: Date): [Date, Date] => {
   ld.setUTCHours(0, 0, 0, 0);
   return [fd, ld];
 };
+
+const getOrdinalSuffixOf = (i: number) => {
+  const j = i % 10,
+    k = i % 100;
+  if (j == 1 && k != 11) {
+    return i + 'st';
+  }
+  if (j == 2 && k != 12) {
+    return i + 'nd';
+  }
+  if (j == 3 && k != 13) {
+    return i + 'rd';
+  }
+  return i + 'th';
+};
+
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sept',
+  'Oct',
+  'Nov',
+  'Dec',
+];
+
+export const getDateAsString = (date: Date) => {
+  return `${monthNames[date.getUTCMonth()]}, ${getOrdinalSuffixOf(
+    date.getUTCDate(),
+  )}`;
+};
